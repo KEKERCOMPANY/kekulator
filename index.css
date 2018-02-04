@@ -1,0 +1,25 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    width: 100%;
+
+    resize: vertical;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    padding: 0.5rem;
+}
+
+#calc {
+    position: fixed;
+
+    top: 0.5rem;
+    right: 0.5rem;
+}
