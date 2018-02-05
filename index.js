@@ -30,16 +30,19 @@ window.onload = () => {
         // Если аккаунты различается, выводим сообщение об ошибке
         if (previous.account !== current.account) {
             showValidationError();
+            return;
         }
 
         // Если список полей не соответствуют шаблону, выводим сообщение об ошибке
         if (Object.keys(previous).toString() !== keys || Object.keys(current).toString() !== keys) {
             showValidationError();
+            return;
         }
 
         // Если список worker'ов различается, выводим сообщение об ошибке
         if (getIds(previous.workers) !== getIds(current.workers)) {
             showValidationError();
+            return;
         }
 
 
