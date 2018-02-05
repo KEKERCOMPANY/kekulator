@@ -1,50 +1,67 @@
-const button = document.getElementById("calc");
+window.onload = () => {
+    const MDCTextField = mdc.textField.MDCTextField;
 
-button.addEventListener("click", () => {
-    // Массив стандартных полей JSON-файла, полученного с Nanopool
-    const keys = ["account", "unconfirmed_balance", "balance", "hashrate", "avgHashrate", "workers"].toString();
-    let previous, current;
+    mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-fab'));
 
-    try {
-        previous = JSON.parse(document.getElementById("previous").value);
-        current = JSON.parse(document.getElementById("current").value);
-    }
-    catch (error) {
-        alertValidationError();
-    }
+    document.querySelectorAll(".mdc-text-field--textarea").forEach(textarea => {
+        new MDCTextField(textarea);
+    });
 
-    // Если хотя бы в одной из переменных (previous / current) ничего не сохранено,
-    // то прерываем выполнение метода
-    if (previous === undefined || current === undefined) {
-        return;
-    }
+    document.querySelector(".mdc-fab").addEventListener("click", () => {
+        // Массив стандартных полей JSON-файла, полученного с Nanopool
+        const keys = ["account", "unconfirmed_balance", "balance", "hashrate", "avgHashrate", "workers"].toString();
+        let previous, current;
 
-    
-    // Если аккаунты различается, выводим сообщение об ошибке
-    if (previous.account !== current.account) {
-        alertValidationError();
-    }
+        try {
+            previous = JSON.parse(document.getElementById("previous").value);
+            current = JSON.parse(document.getElementById("current").value);
+        }
+        catch (error) {
+            showValidationError();
+        }
 
-    // Если список полей не соответствуют шаблону, выводим сообщение об ошибке
-    if (Object.keys(previous).toString() !== keys || Object.keys(current).toString() !== keys) {
-        alertValidationError();
-    }
-
-    // Если список worker'ов различается, выводим сообщение об ошибке
-    if (getIds(previous.workers) !== getIds(current.workers)) {
-        alertValidationError();
-    }
+        // Если хотя бы в одной из переменных (previous / current) ничего не сохранено,
+        // то прерываем выполнение метода
+        if (previous === undefined || current === undefined) {
+            return;
+        }
 
 
-    const sharePrice = calcSharePrice(previous, current);
-    alert("Размер выплаты за нахождение одного share'а: " + sharePrice + " XMR");
-});
+        // Если аккаунты различается, выводим сообщение об ошибке
+        if (previous.account !== current.account) {
+            showValidationError();
+        }
+
+        // Если список полей не соответствуют шаблону, выводим сообщение об ошибке
+        if (Object.keys(previous).toString() !== keys || Object.keys(current).toString() !== keys) {
+            showValidationError();
+        }
+
+        // Если список worker'ов различается, выводим сообщение об ошибке
+        if (getIds(previous.workers) !== getIds(current.workers)) {
+            showValidationError();
+        }
+
+
+        const sharePrice = calcSharePrice(previous, current);
+        alert("Размер выплаты за нахождение одного share'а: " + sharePrice + " XMR");
+    });
+};
 
 /**
  * Выводит сообщение об ошибке валидации
  */
-function alertValidationError() {
-    alert("Входные данные не соответствуют шаблону или неверны");
+function showValidationError() {
+    const MDCSnackbar = mdc.snackbar.MDCSnackbar;
+    const snackbar = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+    const dataObj = {
+        message: "Входные данные не соответствуют шаблону или неверны",
+        actionText: "Закрыть",
+        multiline: true,
+        actionHandler: () => {}
+    };
+
+    snackbar.show(dataObj);
 }
 
 /**

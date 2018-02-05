@@ -7,33 +7,46 @@
     <title>Kekulator</title>
 
     <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body class="mdc-typography">
 
-<table>
-    <tr>
-        <td>
-            <label for="previous">Previous JSON</label>
-        </td>
+<div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
 
-        <td>
-            <label for="current">Current JSON</label>
-        </td>
-    </tr>
+        <div class="mdc-layout-grid__cell--span-6">
+            <div class="mdc-text-field mdc-text-field--textarea">
+                <textarea id="previous" class="mdc-text-field__input"></textarea>
+                <label for="previous" class="mdc-text-field__label">Previous JSON</label>
+            </div>
+        </div>
 
-    <tr>
-        <td>
-            <textarea id="previous"></textarea>
-        </td>
+        <div class="mdc-layout-grid__cell--span-6">
+            <div class="mdc-text-field mdc-text-field--textarea">
+                <textarea id="current" class="mdc-text-field__input"></textarea>
+                <label for="current" class="mdc-text-field__label">Current JSON</label>
+            </div>
+        </div>
 
-        <td>
-            <textarea id="current"></textarea>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
-<button id="calc">Calculate</button>
+<button class="mdc-fab material-icons app-fab--absolute" aria-label="Calculate">
+  <span class="mdc-fab__icon">
+    build
+  </span>
+</button>
+
+<div class="mdc-snackbar"
+     aria-live="assertive"
+     aria-atomic="true"
+     aria-hidden="true">
+    <div class="mdc-snackbar__text"></div>
+    <div class="mdc-snackbar__action-wrapper">
+        <button type="button" class="mdc-snackbar__action-button"></button>
+    </div>
+</div>
 
 <script type="text/javascript" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 <script type="text/javascript" src="index.js"></script>

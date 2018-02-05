@@ -4,22 +4,25 @@ body, html {
 }
 
 textarea {
-    width: 100%;
+    margin: 0;
 
     resize: vertical;
 }
 
-table {
+.mdc-text-field--textarea {
     width: 100%;
 }
 
-td {
-    padding: 0.5rem;
-}
-
-#calc {
+.app-fab--absolute {
     position: fixed;
 
-    top: 0.5rem;
-    right: 0.5rem;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+@media(min-width: 1024px) {
+    .app-fab--absolute {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
 }
