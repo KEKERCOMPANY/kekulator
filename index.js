@@ -34,6 +34,10 @@ button.addEventListener("click", () => {
     if (getIds(previous.workers) !== getIds(current.workers)) {
         alertValidationError();
     }
+
+
+    const sharePrice = calcSharePrice(previous, current);
+    alert("Размер выплаты за нахождение одного share'а: " + sharePrice + " XMR");
 });
 
 /**
@@ -58,4 +62,28 @@ function getIds(workersList) {
     }
 
     return ids.toString();
+}
+
+/**
+ * Вычисляет размер выплаты за нахождение одного share'а
+ * @param previous Предыдущие данные, полученные с Nanopool
+ * @param current Текущие данные, полученные с Nanopool
+ * @returns {number} Вычисленный размер выплаты
+ */
+function calcSharePrice(previous, current) {
+    // Вычисляем текущий и предудущий балансы
+    const currentBalance = Number.parseFloat(current.balance) + Number.parseFloat(current.unconfirmed_balance);
+    const previousBalance = Number.parseFloat(previous.balance) + Number.parseFloat(previous.unconfirmed_balance);
+
+    const deltaBalance = currentBalance - previousBalance; // Разность балансов
+    let deltaShares = 0; // Сумма рейтингов всех майнеров (за период времени между двумя входными данными)
+
+    for (let i = 0; i < previous.workers.length; i++) {
+        const previousWorker = previous.workers[i];
+        const currentWorker = current.workers[i];
+
+        deltaShares += (currentWorker.rating - previousWorker.rating);
+    }
+
+    return deltaBalance / deltaShares;
 }
